@@ -11,28 +11,29 @@ export const useFetch = ( endpoint, query ) =>
     const [ error, setError ] = useState( null );
 
     const options = {
-        method: 'GET',
+        method: "GET",
         url: `https://jsearch.p.rapidapi.com/${ endpoint }`,
-        params: { ...query },
         headers: {
-            'X-RapidAPI-Key': rapidApiKey,
-            'X-RapidAPI-Host': 'jsearch.p.rapidapi.com'
-        }
+            "X-RapidAPI-Key": rapidApiKey,
+            "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
+        },
+        params: { ...query },
     };
 
     const fetchData = async () =>
     {
         setIsLoading( true );
+
         try
         {
             const response = await axios.request( options );
+
             setData( response.data.data );
             setIsLoading( false );
         } catch ( error )
         {
             setError( error );
-            alert( 'There is an error' );
-
+            console.log( error );
         } finally
         {
             setIsLoading( false );
@@ -42,7 +43,6 @@ export const useFetch = ( endpoint, query ) =>
     useEffect( () =>
     {
         fetchData();
-
     }, [] );
 
     const refetchData = () =>
@@ -52,5 +52,4 @@ export const useFetch = ( endpoint, query ) =>
     };
 
     return { data, isLoading, error, refetchData };
-
 };

@@ -20,7 +20,12 @@ const JobDetails = () =>
 
     const [ refreshing, setRefreshing ] = useState( false );
 
-    const onRefresh = () => { };
+    const onRefresh = useCallback( () =>
+    {
+        setRefreshing( true );
+        refetchData();
+        setRefreshing( false );
+    }, [] );
 
     const displayTabContent = () =>
     {
@@ -42,7 +47,7 @@ const JobDetails = () =>
                 />;
 
             default:
-                break;
+                return null;
         }
     };
 
@@ -77,33 +82,33 @@ const JobDetails = () =>
                         <RefreshControl refreshing={ refreshing } onRefresh={ onRefresh } />
                     }
                 >
-                    {
-                        isLoading
-                            ? ( <ActivityIndicator size="large" color={ COLORS.primary } /> )
-                            : error
-                                ? ( <Text>Something went wrong :(</Text> )
-                                : data.length === 0
-                                    ? ( <Text>No Data</Text> )
-                                    : ( <View style={ { padding: SIZES.medium, paddingBottom: 100 } }>
-                                        <Company
-                                            companyLogo={ data[ 0 ].employer_logo }
-                                            jobTitle={ data[ 0 ].job_title }
-                                            companyName={ data[ 0 ].employer_name }
-                                            Location={ data[ 0 ].job_country }
-                                        />
+                    { isLoading ? (
+                        <ActivityIndicator size='large' color={ COLORS.primary } />
+                    ) : error ? (
+                        <Text>Something went wrong redirecting to card details</Text>
+                    ) : data.length === 0 ? (
+                        <Text>No data available</Text>
+                    ) : (
+                        <View style={ { padding: SIZES.medium, paddingBottom: 100 } }>
+                            <Company
+                                companyLogo={ data[ 0 ].employer_logo }
+                                jobTitle={ data[ 0 ].job_title }
+                                companyName={ data[ 0 ].employer_name }
+                                location={ data[ 0 ].job_country }
+                            />
 
-                                        <JobTabs
-                                            tabs={ tabs }
-                                            activeTab={ activeTab }
-                                            setActiveTab={ setActiveTab }
+                            <JobTabs
+                                tabs={ tabs }
+                                activeTab={ activeTab }
+                                setActiveTab={ setActiveTab }
+                            />
 
-                                        />
-                                        { displayTabContent() }
-                                    </View> )
-                    }
+                            { displayTabContent() }
+                        </View>
+                    ) }
                 </ScrollView>
 
-                <JobFooter url={ data[ 0 ]?.job_google_link ?? 'https://careers.google.com/jobs/results' } />
+                <JobFooter url={ data[ 0 ]?.job_google_link ?? 'https://careers.google.com/jobs/results/' } />
 
 
             </>
