@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 import { COLORS, SHADOWS, SIZES } from "../../../../constants";
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create( {
   container: {
     flex: 1,
     justifyContent: "space-between",
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  logImage: {
+  logoImage: {
     width: "70%",
     height: "70%",
   },
@@ -42,6 +42,6 @@ const styles = StyleSheet.create({
     marginTop: 3,
     textTransform: "capitalize",
   },
-});
+} );
 
 export default styles;
